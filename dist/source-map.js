@@ -2693,6 +2693,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	// sorting in C++. By using our own JS-implemented Quick Sort (below), we get
 	// a ~3500ms mean speed-up in `bench/bench.html`.
 
+	// Capture Math.random() now, to avoid problems in case a test mocks it later.
+	// If Math.random() is mocked to return a constant value, quickSort may become
+	// O(n^2) when invoked on already-sorted data.
+	var random = Math.random;
+
 	/**
 	 * Swap the elements indexed by `x` and `y` in the array `ary`.
 	 *
@@ -2718,7 +2723,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *        The upper bound on the range.
 	 */
 	function randomIntInRange(low, high) {
-	  return Math.round(low + (Math.random() * (high - low)));
+	  return Math.round(low + (random() * (high - low)));
 	}
 
 	/**
